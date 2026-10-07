@@ -47,11 +47,31 @@ def aws_env(monkeypatch):
     monkeypatch.setenv("AWS_DEFAULT_REGION", "us-east-1")
 
 
+def _serialize_dynamodb_calls(store: Store) -> None:
+    """Emulate DynamoDB's serializable per-request atomicity under threads.
+
+    moto's in-process TransactWriteItems snapshots/restores the whole table on failure, so concurrent
+    threads can roll back each other's committed writes (a moto limitation, not real DynamoDB
+    behaviour). We serialize the *raw* DynamoDB calls with a lock. Races BETWEEN calls (read -> decide ->
+    write in the engine) still interleave, which is what the concurrency tests exercise.
+    """
+    lock = threading.RLock()
+    for name in ("transact_write_items", "update_item", "get_item", "query", "put_item"):
+        original = getattr(store.client, name)
+
+        def wrapped(*a, _orig=original, **kw):
+            with lock:
+                return _orig(*a, **kw)
+
+        setattr(store.client, name, wrapped)
+
+
 @pytest.fixture
 def store(aws_env):
     with mock_aws():
         s = Store("agent-runner-test")
         s.create_table()
+        _serialize_dynamodb_calls(s)
         yield s
 
 
