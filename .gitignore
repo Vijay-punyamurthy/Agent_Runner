@@ -1,0 +1,19 @@
+# python
+__pycache__/
+*.py[cod]
+*.egg-info/
+.venv/
+.pytest_cache/
+# cdk
+cdk.out/
+node_modules/
+infra/cdk.context.json
+# secrets - never commit
+.env
+.env.*
+*.pem
+*.key
+.aws/
+# local demo
+.moto/
+*.log
