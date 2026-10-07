@@ -154,7 +154,7 @@ class Engine:
             raise PermanentError(f"run {run_id} not found")
         st = run["status"]
         if st == S.WAITING_FOR_HUMAN.value:
-            return {"action": "wait_human", "request_id": run["pending_request_id"]}
+            return {"action": "wait_human", "step_id": HUMAN, "request_id": run["pending_request_id"]}
         if st == S.RUNNING.value and run.get("current_step"):
             return {"action": "run_step", "step_id": run["current_step"]}
         if st == S.COMPLETED.value:
