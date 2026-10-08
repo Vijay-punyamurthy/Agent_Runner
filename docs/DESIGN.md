@@ -165,7 +165,7 @@ non-deterministic or expensive LLM call executes **at most once per committed st
 
 ```bash
 make install                      # venv + deps (python 3.12)
-make test                         # 100+ tests, no AWS needed
+make test                         # 90 tests, no AWS needed
 python scripts/guard_mutation_check.py   # prove each idempotency guard is independently tested
 make demo-local                   # full story against a local moto DynamoDB server
 

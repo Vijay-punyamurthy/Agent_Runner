@@ -41,6 +41,15 @@ Do not add dependencies without a written reason in docs/DESIGN.md.
 9. Lambda error *class names* are matched by Step Functions Retry. `TransientError` is retried,
    everything else is permanent. Never subclass `TransientError`.
 
+## Verification tools (use them, they have caught real bugs)
+- `tests/test_store_guards.py`: every transaction guard is tested **in isolation** (rig state so only that guard rejects).
+- `python scripts/guard_mutation_check.py` (`/guard-check`): removes 13 guards/ASL wirings one at a time; each must make a test fail.
+  If you add a guard, add a mutation for it.
+- `tests/asl_sim.py` + `test_state_machine_integration.py`: execute the *synthesized* state machine against the real handlers.
+  It approximates Step Functions; it does not replace a real deploy.
+- moto transactions are NOT thread-safe; `tests/conftest.py` serializes raw DynamoDB calls to emulate DynamoDB. Don't "fix" flaky
+  concurrency tests by removing that lock.
+
 ## Commands
 ```
 make install        # venv + deps
