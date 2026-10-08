@@ -1,7 +1,7 @@
 import pytest
+from conftest import LARGE, SMALL
 
 from agent_runner.errors import InvalidTransition
-from conftest import LARGE, SMALL
 
 
 def steps(st):

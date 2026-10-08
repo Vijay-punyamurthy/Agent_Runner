@@ -11,13 +11,13 @@ if shutil.which("node") is None:
     pytest.skip("node not available for CDK synth", allow_module_level=True)
 
 import aws_cdk as cdk  # noqa: E402
+from asl_sim import FakeStepFunctions  # noqa: E402
 from aws_cdk.assertions import Template  # noqa: E402
+from conftest import LARGE, SMALL  # noqa: E402
 
 from agent_runner import handlers  # noqa: E402
 from agent_runner.engine import Engine  # noqa: E402
 from agent_runner.orchestrator import StepFunctionsOrchestrator  # noqa: E402
-from asl_sim import FakeStepFunctions  # noqa: E402
-from conftest import LARGE, SMALL  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "infra"))
 from stack import AgentRunnerStack  # noqa: E402
@@ -101,7 +101,8 @@ def test_stop_while_waiting_aborts_execution_and_resume_starts_new_one_on_same_r
 
 def test_permanent_failure_is_caught_to_mark_failed_and_resume_runs_a_new_execution(sfn_env):
     engine, sfn = sfn_env
-    run_id = engine.start({**SMALL, "simulate": {"step": "finalize", "kind": "permanent", "until_attempt": 1}})["run_id"]
+    sim = {"step": "finalize", "kind": "permanent", "until_attempt": 1}
+    run_id = engine.start({**SMALL, "simulate": sim})["run_id"]
     st = engine.status(run_id)
     assert st["status"] == "FAILED" and st["error"]["type"] == "PermanentError"
     assert "simulated permanent failure" in st["error"]["message"]  # Cause JSON parsed by the handler

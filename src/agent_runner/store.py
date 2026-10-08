@@ -258,7 +258,8 @@ class Store:
                 "UpdateExpression": "SET #status = :done, #result = :res, #fin = :now",
                 "ConditionExpression": "attribute_exists(PK) AND #status <> :done",
                 "ExpressionAttributeNames": {"#status": "status", "#result": "result", "#fin": "finished_at"},
-                "ExpressionAttributeValues": _to_ddb({":done": StepStatus.DONE.value, ":res": dict(result), ":now": now}),
+                "ExpressionAttributeValues": _to_ddb(
+                    {":done": StepStatus.DONE.value, ":res": dict(result), ":now": now}),
             }},
             {"Update": {
                 "TableName": t, "Key": {"PK": pk(run_id), "SK": "META"},

@@ -1,9 +1,9 @@
 import threading
 
 import pytest
-
-from agent_runner.errors import BadInput, Conflict, InvalidTransition, UnknownRequest
 from conftest import LARGE
+
+from agent_runner.errors import BadInput, Conflict, UnknownRequest
 
 
 def waiting_run(engine):

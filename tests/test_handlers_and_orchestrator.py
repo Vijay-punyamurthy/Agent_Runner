@@ -3,11 +3,11 @@ from unittest.mock import MagicMock
 
 import pytest
 from botocore.exceptions import ClientError
+from conftest import LARGE, SMALL
 
 from agent_runner import handlers
 from agent_runner.engine import Engine
 from agent_runner.orchestrator import LocalOrchestrator, StepFunctionsOrchestrator, execution_name
-from conftest import LARGE, SMALL
 
 ARN = "arn:aws:states:eu-west-1:123456789012:stateMachine:agent-runner"
 

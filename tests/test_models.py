@@ -1,7 +1,8 @@
 import pytest
 
 from agent_runner.errors import InvalidTransition
-from agent_runner.models import TRANSITIONS, RunStatus as S, allowed_sources, assert_transition
+from agent_runner.models import TRANSITIONS, allowed_sources, assert_transition
+from agent_runner.models import RunStatus as S
 
 
 def test_completed_is_terminal():

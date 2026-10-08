@@ -1,7 +1,7 @@
 """Pure step functions. No I/O: they return a StepOutcome that the engine commits atomically."""
 from __future__ import annotations
 
-from dataclasses import dataclass, field
+from dataclasses import dataclass
 from typing import Any, Callable, Mapping, Optional
 
 from . import agent as ag

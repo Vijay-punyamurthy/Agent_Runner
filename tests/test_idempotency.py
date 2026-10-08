@@ -1,8 +1,9 @@
 import threading
 
+from conftest import LARGE, SMALL
+
 from agent_runner.engine import Engine
 from agent_runner.orchestrator import LocalOrchestrator
-from conftest import LARGE, SMALL
 
 
 def test_rerunning_a_completed_step_reuses_result_and_has_no_side_effect(engine, agent):

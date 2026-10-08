@@ -1,7 +1,6 @@
 import os
 
 import aws_cdk as cdk
-
 from stack import AgentRunnerStack
 
 app = cdk.App()

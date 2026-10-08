@@ -89,8 +89,8 @@ class AgentRunnerStack(Stack):
         # Durable wait: the Lambda only PARKS the task token on the request item and returns.
         # The execution then sleeps (no compute, no polling) until SendTaskSuccess (human answer).
         wait_human = tasks.LambdaInvoke(
-            self, "WaitForHuman", lambda_function=worker, integration_pattern=sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
-            result_path=J.DISCARD,
+            self, "WaitForHuman", lambda_function=worker, result_path=J.DISCARD,
+            integration_pattern=sfn.IntegrationPattern.WAIT_FOR_TASK_TOKEN,
             payload=sfn.TaskInput.from_object({"op": "register_wait", "run_id": J.string_at("$.run_id"),
                                                "request_id": J.string_at("$.next.request_id"),
                                                "task_token": J.task_token}))

@@ -10,7 +10,7 @@ if shutil.which("node") is None:  # jsii needs node
     pytest.skip("node not available for CDK synth", allow_module_level=True)
 
 import aws_cdk as cdk  # noqa: E402
-from aws_cdk.assertions import Match, Template  # noqa: E402
+from aws_cdk.assertions import Template  # noqa: E402
 
 sys.path.insert(0, str(Path(__file__).resolve().parent.parent / "infra"))
 from stack import AgentRunnerStack  # noqa: E402

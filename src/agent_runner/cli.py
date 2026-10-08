@@ -86,9 +86,12 @@ def build_parser() -> argparse.ArgumentParser:
     s = sub.add_parser("start", help="start a run; prints the run_id")
     s.add_argument("input", help='JSON, e.g. \'{"customer":"Vijay","amount":5000,"item":"Laptop"}\'')
     s.add_argument("--key", help="idempotency key: starting twice with the same key returns the same run")
-    for name, h in (("status", "show state, steps, pending request, history"), ("pending", "show the pending human request"),
-                    ("stop", "stop a RUNNING or WAITING run (state preserved)"),
-                    ("resume", "resume a STOPPED or FAILED run")):
+    for name, h in (
+        ("status", "show state, steps, pending request, history"),
+        ("pending", "show the pending human request"),
+        ("stop", "stop a RUNNING or WAITING run (state preserved)"),
+        ("resume", "resume a STOPPED or FAILED run"),
+    ):
         p = sub.add_parser(name, help=h)
         p.add_argument("run_id")
         if name == "status":
